@@ -127,4 +127,9 @@ class Panel(object):
 
     @staticmethod
     def delete(panel_id):
-        db.run("MATCH ()-[r]->() WHERE r.id=\"{}\" DELETE r".format(panel_id)).evaluate()
+        if Panel.find_one(id=panel_id):
+            db.run("MATCH ()-[r]->() WHERE r.id=\"{}\" DELETE r".format(panel_id)).evaluate()
+            return True
+        log("Panel not found")
+        return False
+        

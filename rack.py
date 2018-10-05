@@ -43,6 +43,23 @@ class Rack(object):
         return [i["a"] for i in r]
 
     @staticmethod
+    def free_find(**kwargs):
+        props = []
+        where_props = ""
+        if kwargs:
+            for key, value in kwargs.iteritems():
+                if type(value) in [int, float]:
+                    props.append("a.{}={}".format(key, value))
+                else:
+                    props.append("a.{}=\"{}\"".format(key, value))
+            where_props = "WHERE "+ " AND ".join(props)
+        cypher_query = """
+        MATCH (a: Rack) {} return a
+        """.format(where_props)
+        r = db.run(cypher_query).data()
+        return [i["a"] for i in r]
+
+    @staticmethod
     def update(rack_id=None, name=None, site=None, building=None, room=None):
         if rack_id:
             if not Rack.find_one(by_id=rack_id):

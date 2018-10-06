@@ -74,8 +74,12 @@ class Rack(object):
                 props.append("a.building=\"{}\"".format(building))
             if room:
                 props.append("a.room=\"{}\"".format(room))
-            props_str = ", ".join(props)
-            cypher_query = "MATCH (a: Rack { id: \"" + str(rack_id) + "\"}" + ") SET {} RETURN a".format(props_str)
+            if props:
+                props_str = "SET " + ", ".join(props)
+            else:
+                log("Nothing to update")
+                return False
+            cypher_query = "MATCH (a: Rack { id: \"" + str(rack_id) + "\"}" + ") {} RETURN a".format(props_str)
             return db.run(cypher_query).evaluate()
         log("Must provide rack id")
         return False

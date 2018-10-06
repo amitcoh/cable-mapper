@@ -35,6 +35,7 @@ class Panel(object):
     def find_one(**kwargs):
         props = []
         if kwargs:
+            print kwargs
             for key, value in kwargs.iteritems():
                 if type(value) in [int, float]:
                     props.append("r.{}={}".format(key, value))

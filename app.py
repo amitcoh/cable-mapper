@@ -135,9 +135,7 @@ def rack(id=None):
 ### Web FE Starts Here
 ###
 
-@app.route('/')
-def home():
-    return render_template('shortest_path.html')
+
 
 ###
 ### Web FE Ends Here
